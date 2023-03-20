@@ -1,5 +1,6 @@
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
+import Notiflix from 'notiflix';
 
 const setNewDate = document.querySelector('#datetime-picker');
 const onBtnStart = document.querySelector('[data-start]');
@@ -8,6 +9,10 @@ const onSetHours = document.querySelector('[data-hours]');
 const onSetMinutes = document.querySelector('[data-seconds]');
 
 
+let timerId = null;
+
+
+onBtnStart.disabled = true;   // кнопка не активна по замовчуванню
 
 const options = {
     enableTime: true,             // вмикає засіб вибору часу
@@ -15,31 +20,37 @@ const options = {
     defaultDate: new Date(),      // встановлює початкові вибрані дати
     minuteIncrement: 1,           // Регулює крок для введення хвилин (включно з прокручуванням)
     onClose(selectedDates) {
-      console.log(selectedDates[0]);
-    },
-  };
 
+      const selectDate = selectedDates[0];
+
+      if(selectDate < new Date()) {
+    onBtnStart.disabled = true; 
+    Notiflix.Notify.failure("Please choose a date in the future");
+      } else {
+      onBtnStart.disabled = false;
+      console.log(selectDate);
+      return;
+           }
+       }
+    }
+  
 flatpickr(setNewDate, options); // активує календар в інпуті
 
-onBtnStart.setAttribute('disabled', true);   // кнопка не активна по замовчуванню
+onBtnStart.addEventListener('click', btnStart);
 
- 
-
-
-
-
-
-setNewDate.addEventListener('input', () => {});
-
-onBtnStart.addEventListener('click', () => {});
-
-function flatpickr(selector, options) {
-
+function btnStart() {
+  timerId = setInterval(startTimer, 1000);
 }
 
-
-
-
+function startTimer() {
+  const startTime = new Date();
+  const timeDifference = selectDate - startTime;
+  
+  if (timeDifference <= 0) {
+    clearInterval(timerId);
+    return;
+  }
+}
 
 
   function convertMs(ms) {
