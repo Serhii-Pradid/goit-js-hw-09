@@ -41,7 +41,7 @@ flatpickr(setNewDate, options); // активує календар в інпут
 onBtnStart.addEventListener('click', btnStart);
 
 function btnStart() {         // таймер з кроком 1 сек                  
-  timerId = setInterval(startTimer, 1000);
+    timerId = setInterval(startTimer, 1000);
   }
 
 function startTimer() {      // функція таймер
