@@ -5,6 +5,8 @@ const bodyColor = document.querySelector('body');
 btnStart.addEventListener('click', getStart);
 btnStop.addEventListener('click', getStop);
 
+let colorId = null;
+
 function getStart() {
   colorId = setInterval(getBodyColor, 1000);
   btnStart.toggleAttribute('disabled');

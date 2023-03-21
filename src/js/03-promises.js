@@ -8,7 +8,7 @@ e.preventDefault();
 
   let timeDelay = Number(formSubmit.delay.value);
 
-  for(i = 1; i <= formSubmit.amount.value; i += 1) {
+  for(let i = 1; i <= formSubmit.amount.value; i += 1) {
     createPromise(i, timeDelay)
       .then(({ position, delay }) => {
         Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
