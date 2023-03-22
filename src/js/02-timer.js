@@ -22,10 +22,10 @@ const options = {
     defaultDate: new Date(),      // встановлює початкові вибрані дати
     minuteIncrement: 1,           // Регулює крок для введення хвилин (включно з прокручуванням)
            
-    onClose(selectedDates) {
-      selectDate = selectedDates[0]; 
+    onClose([selectedDates]) {
+      selectDate = selectedDates; 
 
-      if(selectDate < new Date()) {
+      if(selectDate < Date.now()) {
     onBtnStart.disabled = true; 
     Notiflix.Notify.failure("Please choose a date in the future");
       } else {
@@ -46,20 +46,16 @@ function btnStart() {         // таймер з кроком 1 сек
 
 function startTimer() {      // функція таймер
   onBtnStart.disabled = true;
-  const startTime = new Date();
+  const startTime = Date.now();
   const timeDifference = selectDate - startTime;
   const formatDate = convertMs(timeDifference);
-   
-    console.log(formatDate);
+
+  renderDate(formatDate);
+  console.log(formatDate);
 
     onSetSeconds.style.color = "red";   // виділено секунди червоним (додатовий стиль)
 
-    onSetSeconds.textContent = formatDate.seconds;
-    onSetMinutes.textContent = formatDate.minutes;
-    onSetHours.textContent = formatDate.hours;
-    onSetDay.textContent = formatDate.days;
-
-  if (onSetSeconds.textContent === '00' && 
+    if (onSetSeconds.textContent === '00' && 
     onSetMinutes.textContent === '00' &&
     onSetHours.textContent === '00' &&
     onSetDay.textContent === '00') {
@@ -67,6 +63,13 @@ function startTimer() {      // функція таймер
     clearInterval(timerId);
      return;
   }
+}
+
+function renderDate(formatDate) {
+    onSetSeconds.textContent =  addLeadingZero(formatDate.seconds);
+    onSetMinutes.textContent =  addLeadingZero(formatDate.minutes);
+    onSetHours.textContent =  addLeadingZero(formatDate.hours);
+    onSetDay.textContent =  addLeadingZero(formatDate.days);
 }
 
 function convertMs(ms) {
@@ -77,13 +80,13 @@ function convertMs(ms) {
     const day = hour * 24;
   
     // Remaining days
-    const days = addLeadingZero(Math.floor(ms / day));
+    const days = (Math.floor(ms / day));
     // Remaining hours
-    const hours = addLeadingZero(Math.floor((ms % day) / hour));
+    const hours = (Math.floor((ms % day) / hour));
     // Remaining minutes
-    const minutes = addLeadingZero(Math.floor(((ms % day) % hour) / minute));
+    const minutes = (Math.floor(((ms % day) % hour) / minute));
     // Remaining seconds
-    const seconds = addLeadingZero(Math.floor((((ms % day) % hour) % minute) / second));
+    const seconds = (Math.floor((((ms % day) % hour) % minute) / second));
   
     return { days, hours, minutes, seconds };
   }
@@ -91,8 +94,4 @@ function convertMs(ms) {
   function addLeadingZero(value) {  // функція додавання 0 перед числом
   return String(value).padStart(2 , '0');
   }
-  //console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
-  //console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
-  //console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
-  
   
