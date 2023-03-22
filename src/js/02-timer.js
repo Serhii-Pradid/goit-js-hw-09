@@ -65,11 +65,11 @@ function startTimer() {      // функція таймер
   }
 }
 
-function renderDate(formatDate) {
-    onSetSeconds.textContent =  addLeadingZero(formatDate.seconds);
-    onSetMinutes.textContent =  addLeadingZero(formatDate.minutes);
-    onSetHours.textContent =  addLeadingZero(formatDate.hours);
-    onSetDay.textContent =  addLeadingZero(formatDate.days);
+function renderDate({seconds, minutes, hours, days}) {
+    onSetSeconds.textContent =  addLeadingZero(seconds);
+    onSetMinutes.textContent =  addLeadingZero(minutes);
+    onSetHours.textContent =  addLeadingZero(hours);
+    onSetDay.textContent =  addLeadingZero(days);
 }
 
 function convertMs(ms) {
